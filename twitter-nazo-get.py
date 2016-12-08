@@ -33,8 +33,9 @@ tableNameSequence = 'sequences'             # AtomicCounter用のテーブル名
 tableSequensesColumnName = 'my_table'       # AtomicCounter用のカラム名
 tableTweetName = 'nazo-tweet-tables'        # Twitter謎格納用のテーブル名
 
-tableNameSequence = 'sequences-test'
-tableTweetName = 'nazo-tweet-tables-test'
+#テスト用
+#tableNameSequence = 'sequences-test'
+#tableTweetName = 'nazo-tweet-tables-test'
 regionName = 'ap-northeast-1'               # 使用するリージョン名
 
 dynamodb = boto3.resource(
