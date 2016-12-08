@@ -1,0 +1,9 @@
+{
+  "name": "twitter-nazo-get",
+  "description": "lambda-uploader w/ 3rd party packages",
+  "region": "ap-northeast-1",
+  "handler": "twitter-nazo-get.lambda_handler",
+  "role": "arn:aws:iam::850890597300:role/lambda_basic_execution_dynamodb_access",
+  "timeout": 300,
+  "memory": 128
+}
