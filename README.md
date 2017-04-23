@@ -4,17 +4,7 @@
 $ virtualenv uploader
 $ source  uploader/bin/activate
 $ pip install -r requirements.txt
-$ pip install lambda-uploader # 最新のリリース版をインストール
-$ pip install git+https://github.com/rackerlabs/lambda-uploader # git main branch をインストール
-$ aws configure
-AWS Access Key ID [None]: xx
-AWS Secret Access Key [None]: xx
-Default region name [ap-northeast-1]: ap-northeast-1
-Default output format [None]:
-$ lambda-uploader
-λ Building Package
-λ Uploading Package
-λ Fin
+$ pip install lamvery
+$ lamvery deploy
 ```
-
-[AWS Lambda Pythonをlambda-uploaderでデプロイ ｜ Developers.IO](http://dev.classmethod.jp/cloud/deploy-aws-lambda-python-with-lambda-uploader/)
+[AWS Lambda向けデプロイ・管理ツール「Lamvery」について - Qiita](http://qiita.com/marcy-terui/items/1617ab4e20e3339d1930)

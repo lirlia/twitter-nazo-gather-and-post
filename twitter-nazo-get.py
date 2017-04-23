@@ -185,8 +185,7 @@ def PostHatena(nazoList):
 
     body = body +  \
       u'*これまでのTwitter謎\n' \
-      u'下記のリンクからこれまでのTwitter謎が遊べます\n' \
-      u'- http://lirlia.hatenablog.com/archive/category/Twitter%E8%AC%8E\n' \
+      u'以前ご紹介したTwitter謎は[http://lirlia.hatenablog.com/archive/category/Twitter%E8%AC%8E:title=こちら]から\n' \
       u'\n' \
       u'*集計条件\n' \
       u'-' + day1 + u' 12:00:00(JST) 〜' + day2 + u' 11:59:59(JST) の期間に投稿された新作謎であること。\n' \
@@ -200,7 +199,6 @@ def PostHatena(nazoList):
       u'-https://twitter.com/tenhouginsama/lists/twitter-nazo/members\n' \
       u'\n' \
       u'「このアカウントも収集対象に追加して欲しい」というご要望があれば[https://twitter.com/intent/user?original_referer=http%3A%2F%2Flirlia.hatenablog.com%2F&amp;region=follow&amp;screen_name=tenhouginsama&amp;tw_p=followbutton&amp;variant=2.0:title=(@tenhouginsama)]までご連絡ください。  \n\n' \
-      u'\n' \
 
     data = \
         u'<?xml version="1.0" encoding="utf-8"?>' \
@@ -243,7 +241,7 @@ def lambda_handler(event, context):
                 continue
 
             # DynamoDBへの格納の処理
-            #InsertDynamoDB(Sequence(), tweet)
+            InsertDynamoDB(Sequence(), tweet)
 
             # データの格納
             nazoList.append({
@@ -258,5 +256,3 @@ def lambda_handler(event, context):
     PostHatena(nazoList)
 
     return { "messages":"success!" }
-
-lambda_handler(1,1)
