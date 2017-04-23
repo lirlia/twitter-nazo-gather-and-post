@@ -177,11 +177,23 @@ def PostHatena(nazoList):
       u'*目次\n' \
       u'[:contents]\n' \
       u'\n' \
+      u'*今週人気のTwitter謎一覧\n'
+
+    for i in nazoList:
+        body = body + u'**制作者：' + i['userName'] + u' (RT:' + str(i['rt']) + u' Fav:' + str(i['fav']) + u')\n' + \
+      u'[https://twitter.com/' + i['twitterID'] + u'/status/' + str(i['tweetID']) + u':embed]  \n\n\n'
+
+    body = body +  \
+      u'*これまでのTwitter謎\n' \
+      u'下記のリンクからこれまでのTwitter謎が遊べます\n' \
+      u'- http://lirlia.hatenablog.com/archive/category/Twitter%E8%AC%8E\n' \
+      u'\n' \
       u'*集計条件\n' \
       u'-' + day1 + u' 12:00:00(JST) 〜' + day2 + u' 11:59:59(JST) の期間に投稿された新作謎であること。\n' \
       u'-データ集計タイミング(' + day2 + u' 21:00)にRTが' + str(twitterRT) + u'以上であること。\n' \
       u'-データ集計タイミング(' + day2 + u' 21:00)にお気に入り数が' + str(twitterFav) + u'以上であること。\n' \
       u'--RT数、お気に入り数の条件は今後変動の可能性があります。\n' \
+      u'-自分自身のアカウントによって該当ツイートが集計タイミング時点でRTされていないこと。\n' \
       u'\n' \
       u'*集計対象Twitterアカウント\n' \
       u'集計対象アカウントは下記のTwitterリストとなります。\n' \
@@ -189,11 +201,6 @@ def PostHatena(nazoList):
       u'\n' \
       u'「このアカウントも収集対象に追加して欲しい」というご要望があれば[https://twitter.com/intent/user?original_referer=http%3A%2F%2Flirlia.hatenablog.com%2F&amp;region=follow&amp;screen_name=tenhouginsama&amp;tw_p=followbutton&amp;variant=2.0:title=(@tenhouginsama)]までご連絡ください。  \n\n' \
       u'\n' \
-      u'*今週人気のTwitter謎一覧\n'
-
-    for i in nazoList:
-        body = body + u'**制作者：' + i['userName'] + u' (RT:' + str(i['rt']) + u' Fav:' + str(i['fav']) + u')\n' + \
-      u'[https://twitter.com/' + i['twitterID'] + u'/status/' + str(i['tweetID']) + u':embed]  \n\n\n'
 
     data = \
         u'<?xml version="1.0" encoding="utf-8"?>' \
@@ -205,11 +212,13 @@ def PostHatena(nazoList):
         u'</content>' \
         u'<category term="練習問題" />' \
         u'<category term="練習問題-小謎" />' \
+        u'<category term="Twitter謎" />' \
         u'<app:control>' \
         u'<app:draft>' + hatenaDraft + '</app:draft>' \
         u'</app:control>' \
         u'</entry>'
 
+    print body
     headers = {'X-WSSE': Wsse()}
     url = 'http://blog.hatena.ne.jp/{}/{}/atom/entry'.format(hatenaUsername, hatenaBlogname)
     req = requests.post(url, data=data.encode('utf-8'), headers=headers)
@@ -234,7 +243,7 @@ def lambda_handler(event, context):
                 continue
 
             # DynamoDBへの格納の処理
-            InsertDynamoDB(Sequence(), tweet)
+            #InsertDynamoDB(Sequence(), tweet)
 
             # データの格納
             nazoList.append({
@@ -249,3 +258,5 @@ def lambda_handler(event, context):
     PostHatena(nazoList)
 
     return { "messages":"success!" }
+
+lambda_handler(1,1)
