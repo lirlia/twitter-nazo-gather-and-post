@@ -180,20 +180,20 @@ def PostHatena(nazoList):
       u'*今週人気のTwitter謎一覧\n'
 
     for i in nazoList:
-        body = body + u'**制作者：' + i['userName'] + u' (RT:' + str(i['rt']) + u' Fav:' + str(i['fav']) + u')\n' + \
-      u'[https://twitter.com/' + i['twitterID'] + u'/status/' + str(i['tweetID']) + u':embed]  \n\n\n'
+        body = body + u'**' + i['userName'] + u' (RT:' + str(i['rt']) + u' Fav:' + str(i['fav']) + u')\n' + \
+      u'[https://twitter.com/' + i['twitterID'] + u'/status/' + str(i['tweetID']) + u':embed]  \n\n'
 
     body = body +  \
       u'*これまでのTwitter謎\n' \
       u'以前ご紹介したTwitter謎は[http://lirlia.hatenablog.com/archive/category/Twitter%E8%AC%8E:title=こちら]から\n' \
-      u'\n' \
+      u'\n\n' \
       u'*集計条件\n' \
       u'-' + day1 + u' 12:00:00(JST) 〜' + day2 + u' 11:59:59(JST) の期間に投稿された新作謎であること。\n' \
       u'-データ集計タイミング(' + day2 + u' 21:00)にRTが' + str(twitterRT) + u'以上であること。\n' \
       u'-データ集計タイミング(' + day2 + u' 21:00)にお気に入り数が' + str(twitterFav) + u'以上であること。\n' \
       u'--RT数、お気に入り数の条件は今後変動の可能性があります。\n' \
       u'-自分自身のアカウントによって該当ツイートが集計タイミング時点でRTされていないこと。\n' \
-      u'\n' \
+      u'\n\n' \
       u'*集計対象Twitterアカウント\n' \
       u'集計対象アカウントは下記のTwitterリストとなります。\n' \
       u'-https://twitter.com/tenhouginsama/lists/twitter-nazo/members\n' \
