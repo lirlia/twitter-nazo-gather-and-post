@@ -173,10 +173,9 @@ def PostHatena(nazoList):
       u'こんばんは、ぎん[https://twitter.com/intent/user?original_referer=http%3A%2F%2Flirlia.hatenablog.com%2F&amp;region=follow&amp;screen_name=tenhouginsama&amp;tw_p=followbutton&amp;variant=2.0:title=(@tenhouginsama)]です。  \n' \
       u'\n' + \
       day1 + u'〜' + day2 + u'の期間に、人気を集めた謎をご紹介します。\n' \
-      u'\n' \
-      u'*目次\n' \
+      u'\n\n' \
       u'[:contents]\n' \
-      u'\n' \
+      u'\n\n' \
       u'*今週人気のTwitter謎一覧\n'
 
     for i in nazoList:
