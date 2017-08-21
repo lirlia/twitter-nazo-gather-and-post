@@ -13,6 +13,7 @@ import random
 import hashlib
 import base64
 import requests
+from xml.sax.saxutils import *
 
 ## Twitter系の変数
 # OAuth認証 セッションを開始
@@ -168,36 +169,43 @@ def PostHatena(nazoList):
         + day1 + u'〜' + day2 + u') #週謎';
 
     body = \
-      u'[f:id:lirlia:20140206190730j:plain]\n' \
-      u'====\n' \
-      u'こんばんは、ぎん[https://twitter.com/intent/user?original_referer=http%3A%2F%2Flirlia.hatenablog.com%2F&amp;region=follow&amp;screen_name=tenhouginsama&amp;tw_p=followbutton&amp;variant=2.0:title=(@tenhouginsama)]です。  \n' \
-      u'\n' + \
-      day1 + u'〜' + day2 + u'の期間に、人気を集めた謎をご紹介します。\n' \
-      u'\n\n' \
-      u'[:contents]\n' \
-      u'\n\n' \
-      u'*今週人気のTwitter謎一覧\n'
+        u'<p><img class="hatena-fotolife" title="画像" src="https://cdn-ak.f.st-hatena.com/images/fotolife/l/lirlia/20140206/20140206190730.jpg" alt="f:id:lirlia:20161124194747j:plain" /></p>' \
+        u'<p><!-- more --></p>' \
+        u'<p></p>' \
+        u'<p>こんにちは、<span id="myicon"> </span><a href="https://twitter.com/intent/user?original_referer=http://lirlia.hatenablog.com/&amp;region=follow&amp;screen_name=tenhouginsama&amp;tw_p=followbutton&amp;variant=2.0">ぎん</a>です。' \
+        u'<p></p>' \
+        u'<p>' + \
+        day1 + u'〜' + day2 + u'の期間に、人気を集めた謎をご紹介します。</p><br>' \
+        u'<p></p>' \
+        u'<p>[:contents]</p>' \
+        u'<p></p>' \
+        u'<h3>今週人気のTwitter謎一覧</h3>'
 
     for i in nazoList:
-        body = body + u'**' + i['userName'] + u' (RT:' + str(i['rt']) + u' Fav:' + str(i['fav']) + u')\n' + \
-      u'[https://twitter.com/' + i['twitterID'] + u'/status/' + str(i['tweetID']) + u':embed]  \n\n'
+        body = body + u'<h4>' + i['userName'] + u' (RT:' + str(i['rt']) + u' Fav:' + str(i['fav']) + u')</h4>' + \
+      u'<p>[https://twitter.com/' + i['twitterID'] + u'/status/' + str(i['tweetID']) + u':embed]</p>'
 
     body = body +  \
-      u'*これまでのTwitter謎\n' \
-      u'以前ご紹介したTwitter謎は[http://lirlia.hatenablog.com/archive/category/Twitter%E8%AC%8E:title=こちら]から\n' \
-      u'\n\n' \
-      u'*集計条件\n' \
-      u'-' + day1 + u' 12:00:00(JST) 〜' + day2 + u' 11:59:59(JST) の期間に投稿された新作謎であること。\n' \
-      u'-データ集計タイミング(' + day2 + u' 21:00)にRTが' + str(twitterRT) + u'以上であること。\n' \
-      u'-データ集計タイミング(' + day2 + u' 21:00)にお気に入り数が' + str(twitterFav) + u'以上であること。\n' \
-      u'--RT数、お気に入り数の条件は今後変動の可能性があります。\n' \
-      u'-自分自身のアカウントによって該当ツイートが集計タイミング時点でRTされていないこと。\n' \
-      u'\n\n' \
-      u'*集計対象Twitterアカウント\n' \
-      u'集計対象アカウントは下記のTwitterリストとなります。\n' \
-      u'-https://twitter.com/tenhouginsama/lists/twitter-nazo/members\n' \
-      u'\n' \
-      u'「このアカウントも収集対象に追加して欲しい」というご要望があれば[https://twitter.com/intent/user?original_referer=http%3A%2F%2Flirlia.hatenablog.com%2F&amp;region=follow&amp;screen_name=tenhouginsama&amp;tw_p=followbutton&amp;variant=2.0:title=(@tenhouginsama)]までご連絡ください。  \n\n' \
+        u'<h3>Twitter謎の収集について</h3>' \
+        u'<h4>これまで紹介したTwitter謎</h4>' \
+        u'<p>いままでに紹介したTwitter謎はこちらから↓</p>' \
+        u'<p><iframe class="embed-card embed-webcard" style="display: block; width: 100%; height: 155px; max-width: 500px; margin: 10px 0px;" title="Twitter謎 カテゴリーの記事一覧 - なぞまっぷ" src="https://hatenablog-parts.com/embed?url=http%3A%2F%2Fwww.nazomap.com%2Farchive%2Fcategory%2FTwitter%25E8%25AC%258E" frameborder="0" scrolling="no"></iframe></p>' \
+        u'<p></p>' \
+        u'<h4>集計の条件</h4>' \
+        u'<p>Twitterから話題の謎を集める条件はこちらです</p>' \
+        u'<ul>' \
+        u'<li>' + day1 + u' 12:00:00(JST) 〜' + day2 + u' 11:59:59(JST) の期間に投稿された新作謎であること。</li>' \
+        u'<li>データ集計タイミング(' + day2 + u' 21:00)にRTが' + str(twitterRT) + u'以上であること。</li>' \
+        u'<li>データ集計タイミング(' + day2 + u' 21:00)にお気に入り数が' + str(twitterFav) + u'以上であること。</li>' \
+        u'<li>RT数、お気に入り数の条件は今後変動の可能性があります。</li>' \
+        u'<li>自分自身のアカウントによって該当ツイートが集計タイミング時点でRTされていないこと。</li></ul>' \
+        u'<p></p>' \
+        u'<h4>集計対象Twitterアカウント</h4>' \
+        u'<p>集計対象アカウントは下記のTwitterリストとなります。</p>' \
+        u'<ul><li>https://twitter.com/tenhouginsama/lists/twitter-nazo/members</li></ul>' \
+        u'<p></p>' \
+        u'<p><strong>「このアカウントも収集対象に追加して欲しい」</strong>というご要望があれば[https://twitter.com/intent/user?original_referer=http%3A%2F%2Flirlia.hatenablog.com%2F&amp;region=follow&amp;screen_name=tenhouginsama&amp;tw_p=followbutton&amp;variant=2.0:title=(@tenhouginsama)]までご連絡ください</p>'
+    body = escape(body)
 
     data = \
         u'<?xml version="1.0" encoding="utf-8"?>' \
@@ -215,7 +223,6 @@ def PostHatena(nazoList):
         u'</app:control>' \
         u'</entry>'
 
-    print body
     headers = {'X-WSSE': Wsse()}
     url = 'http://blog.hatena.ne.jp/{}/{}/atom/entry'.format(hatenaUsername, hatenaBlogname)
     req = requests.post(url, data=data.encode('utf-8'), headers=headers)
@@ -240,7 +247,7 @@ def lambda_handler(event, context):
                 continue
 
             # DynamoDBへの格納の処理
-            InsertDynamoDB(Sequence(), tweet)
+            #InsertDynamoDB(Sequence(), tweet)
 
             # データの格納
             nazoList.append({
@@ -255,3 +262,5 @@ def lambda_handler(event, context):
     PostHatena(nazoList)
 
     return { "messages":"success!" }
+
+lambda_handler(1,1)
