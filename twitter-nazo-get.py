@@ -247,7 +247,7 @@ def lambda_handler(event, context):
                 continue
 
             # DynamoDBへの格納の処理
-            #InsertDynamoDB(Sequence(), tweet)
+            InsertDynamoDB(Sequence(), tweet)
 
             # データの格納
             nazoList.append({
@@ -262,5 +262,3 @@ def lambda_handler(event, context):
     PostHatena(nazoList)
 
     return { "messages":"success!" }
-
-lambda_handler(1,1)
