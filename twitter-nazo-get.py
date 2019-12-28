@@ -166,13 +166,13 @@ def PostHatena(nazoList):
     day2 = today.strftime("%Y/%m/%d")
 
     title = u'今週Twitterで話題だった謎を紹介！(' \
-        + day1 + u'〜' + day2 + u') #週謎';
+        + day1 + u'〜' + day2 + u')';
 
     body = \
         u'<p><img class="hatena-fotolife" title="画像" src="https://cdn-ak.f.st-hatena.com/images/fotolife/l/lirlia/20140206/20140206190730.jpg" alt="f:id:lirlia:20161124194747j:plain" /></p>' \
         u'<p><!-- more --></p>' \
         u'<p></p>' \
-        u'<p>こんにちは、<span id="myicon"> </span><a href="https://twitter.com/intent/user?original_referer=http://lirlia.hatenablog.com/&amp;region=follow&amp;screen_name=tenhouginsama&amp;tw_p=followbutton&amp;variant=2.0">ぎん</a>です。' \
+        u'<p class="r-fuki gin">こんにちは！<a href="https://twitter.com/intent/user?original_referer=https://www.nazomap.com/&amp;region=follow&amp;screen_name=tenhouginsama&amp;tw_p=followbutton&amp;variant=2.0">リアル脱出ゲームブロガーのぎん</a>です</p>' \
         u'<p></p>' \
         u'<p>' + \
         day1 + u'〜' + day2 + u'の期間に、人気を集めた謎をご紹介します。</p><br>' \
@@ -209,7 +209,7 @@ def PostHatena(nazoList):
 
     data = \
         u'<?xml version="1.0" encoding="utf-8"?>' \
-        u'<entry xmlns="http://www.w3.org/2005/Atom"' \
+        u'<entry xmlns="http://www.w3.org/2005/Atom" ' \
         u'xmlns:app="http://www.w3.org/2007/app">' \
         u'<title>' + title + '</title>' \
         u'<author><name>name</name></author>' \
@@ -231,16 +231,28 @@ def PostHatena(nazoList):
         print ("Error: %d" % req.status_code)
         sys.exit()
 
+def post_line():
+    url = "https://notify-api.line.me/api/notify"
+    token = os.getenv('Line_Access_Token')
+    headers = {"Authorization" : "Bearer "+ token}
+
+    message =  '今週のTwitter謎まとめの下書きアップが完了しました'
+    payload = {"message" :  message}
+
+    r = requests.post(url ,headers = headers ,params=payload)
+    return
+
 def lambda_handler(event, context):
 
     nazoList = []
 
     # リストからアカウントを検索
     for account in GetTwitterAccount():
-
+        print "{},{}".format(account['screen_name'],account['followers_count'])
         # 対象のアカウントのツイートから条件を満たしているものを抽出
         for tweet in SearchTweet(account['screen_name'])['statuses']:
 
+            #print "{},{},{},{}".format(account['followers_count'],tweet['retweet_count'],tweet['favorite_count'],account['screen_name'])
             # 取得したツイートが条件を満たしていない場合があるので排除する
             if int(tweet['retweet_count']) < twitterRT or \
                 int(tweet['favorite_count']) < twitterFav:
@@ -261,4 +273,9 @@ def lambda_handler(event, context):
     # ブログへ記事を投稿
     PostHatena(nazoList)
 
+    # Lineへ通知
+    post_line()
+
     return { "messages":"success!" }
+
+#lambda_handler(1,1)
